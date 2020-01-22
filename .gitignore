@@ -1,0 +1,14 @@
+venv/
+*.pyc
+*.db
+.DS_Store
+*.log
+.vscode
+*.lnk
+*.exe
+deej-dev
+deej-release
+releases/
+*.bin
+logs/
+preferences.yaml
