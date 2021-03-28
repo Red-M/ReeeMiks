@@ -51,6 +51,7 @@ type ButtonEvent struct {
 }
 
 var expectedLinePattern = regexp.MustCompile(`^\w{1}\d{1,4}(\|\w{1}\d{1,4})*\r\n$`)
+var maxRetryDelay = 100 * time.Second
 
 // NewSerialIO creates a SerialIO instance that uses the provided deej
 // instance's connection info to establish communications with the arduino chip
