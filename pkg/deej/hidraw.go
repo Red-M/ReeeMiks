@@ -1,6 +1,7 @@
 package deej
 
 import (
+	"encoding/binary"
 	"errors"
 	"fmt"
 	"strings"
@@ -120,6 +121,7 @@ func (hidraw *HIDRAW) Start() error {
 	return nil
 }
 
+<<<<<<< HEAD
 func (hidraw *HIDRAW) sendSliderValues(logger *zap.SugaredLogger) {
 	hidraw.deej.config.SliderMapping.iterate(func(slider int, targets []string) {
 		sliderVolume := hidraw.deej.sessions.getSliderVolume(slider, targets)
@@ -139,6 +141,8 @@ func (hidraw *HIDRAW) sendSliderValues(logger *zap.SugaredLogger) {
 	})
 }
 
+=======
+>>>>>>> 079028e (made updates to support connection to HID device)
 func (hidraw *HIDRAW) readHID(logger *zap.SugaredLogger) chan []byte {
 	ch := make(chan []byte, 32)
 
@@ -146,12 +150,16 @@ func (hidraw *HIDRAW) readHID(logger *zap.SugaredLogger) chan []byte {
 		for {
 			buff := make([]byte, 32)
 			if _, err := hidraw.hidDevice.Read(buff); err != nil {
+<<<<<<< HEAD
 
 				if hidraw.deej.Verbose() {
 					logger.Warn("Failed to read buffer")
 				}
 
 				return
+=======
+				logger.Warn("Failed to read buffer")
+>>>>>>> 079028e (made updates to support connection to HID device)
 			}
 
 			ch <- buff
@@ -194,7 +202,7 @@ func (hidraw *HIDRAW) handleBuff(logger *zap.SugaredLogger, buff []byte) {
 		for _, consumer := range hidraw.sliderMoveConsumers {
 			moveEvent := SliderMoveEvent{
 				SliderID:     slider,
-				PercentValue: sliderVolume,
+				PercentValue: normalizedScalar,
 			}
 
 			consumer <- moveEvent

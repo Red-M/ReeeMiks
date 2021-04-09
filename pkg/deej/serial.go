@@ -94,8 +94,8 @@ func (sio *SerialIO) Start() error {
 	}
 
 	sio.connOptions = serial.OpenOptions{
-		PortName:        sio.deej.config.ConnectionInfo.COMPort,
-		BaudRate:        uint(sio.deej.config.ConnectionInfo.BaudRate),
+		PortName:        sio.deej.config.SerialConnectionInfo.COMPort,
+		BaudRate:        uint(sio.deej.config.SerialConnectionInfo.BaudRate),
 		DataBits:        8,
 		StopBits:        1,
 		MinimumReadSize: uint(minimumReadSize),
@@ -203,8 +203,8 @@ func (sio *SerialIO) setupOnConfigReload() {
 				}()
 
 				// if connection params have changed, attempt to stop and start the connection
-				if sio.deej.config.ConnectionInfo.COMPort != sio.connOptions.PortName ||
-					uint(sio.deej.config.ConnectionInfo.BaudRate) != sio.connOptions.BaudRate {
+				if sio.deej.config.SerialConnectionInfo.COMPort != sio.connOptions.PortName ||
+					uint(sio.deej.config.SerialConnectionInfo.BaudRate) != sio.connOptions.BaudRate {
 
 					sio.logger.Info("Detected change in connection parameters, attempting to renew connection")
 					sio.Stop()
