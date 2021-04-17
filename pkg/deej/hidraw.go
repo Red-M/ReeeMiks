@@ -105,7 +105,7 @@ func (hidraw *HIDRAW) Start() error {
 		buffChannel := hidraw.readHID(namedLogger)
 
 		// Send current slider values to controller
-		// hidraw.sendSliderValues(namedLogger)
+		hidraw.sendSliderValues(namedLogger)
 
 		for {
 			select {
