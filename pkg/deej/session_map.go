@@ -6,6 +6,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"strconv"
 
 	"github.com/omriharel/deej/pkg/deej/util"
 	"github.com/micmonay/keybd_event"
@@ -288,10 +289,13 @@ func (m *sessionMap) handleSliderMoveEvent(event SliderMoveEvent) {
 
 
 func (m *sessionMap) handleButtonEvent(event ButtonEvent) {
-	m.logger.Debug("Handling button event")
 	if event.Value == 1 {
 		kb, err := keybd_event.NewKeyBonding()
-		kb.SetKeys(keybd_event.VK_VOLUME_MUTE)
+		
+		i, err := strconv.Atoi(m.deej.config.ButtonMapping[strconv.Itoa(event.ButtonID)][0])
+		kb.SetKeys(i)
+		m.logger.Debugw("Triggering button","keycodeint",i)
+		// m.logger.Debug(0xAD + 0xFFF)
 		err = kb.Launching() 
 		if err != nil {
 			panic(err)
