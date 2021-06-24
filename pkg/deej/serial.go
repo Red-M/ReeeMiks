@@ -359,9 +359,9 @@ func (sio *SerialIO) handleLine(logger *zap.SugaredLogger, line string) {
 					Value: 				number,
 				})
 
-				// if sio.deej.Verbose() {
+				if sio.deej.Verbose() {
 					logger.Debugw("Button changed", "event", buttonEvents[len(buttonEvents)-1])
-				// }
+				}
 
 			}
 
