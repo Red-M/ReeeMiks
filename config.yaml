@@ -22,7 +22,7 @@ slider_mapping:
   4: master
 
 button_mapping:
-  0: VK_VOLUME_MUTE
+  0: 4268
 
 # set this to true if you want the controls inverted (i.e. top is 0%, bottom is 100%)
 invert_sliders: true
