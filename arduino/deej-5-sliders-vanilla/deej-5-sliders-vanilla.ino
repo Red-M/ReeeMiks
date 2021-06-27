@@ -1,7 +1,7 @@
 const int NUM_SLIDERS = 5;
-const int analogInputs[NUM_SLIDERS] = {A0, A1, A2, A3, A4};
-const int NUM_BUTTONS = 1;
-const int buttonInputs[NUM_BUTTONS] = {9};
+const int analogInputs[NUM_SLIDERS] = {A3, A2, A1, A0, A10};
+const int NUM_BUTTONS = 6;
+const int buttonInputs[NUM_BUTTONS] = {9,8,7,6,5,4};
 
 int analogSliderValues[NUM_SLIDERS];
 int buttonValues[NUM_BUTTONS];
@@ -12,7 +12,7 @@ void setup() {
   }
 
   for (int i = 0; i < NUM_BUTTONS; i++) {
-    pinMode(buttonInputs[i], INPUT);
+    pinMode(buttonInputs[i], INPUT_PULLUP);
   }
 
   Serial.begin(9600);
@@ -42,12 +42,12 @@ void sendSliderValues() {
     builtString += String((int)analogSliderValues[i]);
 
     if (i < NUM_SLIDERS - 1) {
-      builtString += String("|");
+      builtString += String("\t");
     }
   }
 
   if(NUM_BUTTONS > 0){
-    builtString += String("|");
+    builtString += String("\t");
   }
 
   for (int i = 0; i < NUM_BUTTONS; i++) {
@@ -55,7 +55,7 @@ void sendSliderValues() {
     builtString += String((int)buttonValues[i]);
 
     if (i < NUM_BUTTONS - 1) {
-      builtString += String("|");
+      builtString += String("\t");
     }
   }
 
