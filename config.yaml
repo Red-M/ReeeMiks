@@ -9,10 +9,8 @@
 slider_mapping:
   0: master
   1: chrome.exe
-  2: spotify.exe
-  3:
-    - pathofexile_x64.exe
-    - rocketleague.exe
+  2: brave.exe
+  3: deej.unmapped
   4: discord.exe
 
 button_mapping:
