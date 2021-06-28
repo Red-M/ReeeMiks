@@ -7,19 +7,11 @@
 # windows only - you can use 'system' to control the "system sounds" volume
 # important: slider indexes start at 0, regardless of which analog pins you're using!
 slider_mapping:
-  0: deej.unmapped
-  1:
-    - chrome
-    - spotify
-  2:
-    - ts3client_linux_amd64
-    - Discord
-    - DiscordPTB
-    - DiscordCanary
-  3:
-    - pathofexile_x64.exe
-    - rocketleague.exe
-  4: master
+  0: master
+  1: chrome.exe
+  2: brave.exe
+  3: deej.unmapped
+  4: discord.exe
 
 button_mapping:
   0: 4268
