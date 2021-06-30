@@ -289,7 +289,7 @@ func (m *sessionMap) handleSliderMoveEvent(event SliderMoveEvent) {
 
 
 func (m *sessionMap) handleButtonEvent(event ButtonEvent) {
-	if event.Value == 1 {
+	if event.Value == 0 {
 		kb, err := keybd_event.NewKeyBonding()
 		
 		i, err := strconv.Atoi(m.deej.config.ButtonMapping[strconv.Itoa(event.ButtonID)][0])
