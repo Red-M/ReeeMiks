@@ -15,6 +15,11 @@ slider_mapping:
 
 button_mapping:
   0: 4268
+  1: 4272
+  2: 4274
+  3: 4271
+  4: 4229
+  5: 4230
 
 # set this to true if you want the controls inverted (i.e. top is 0%, bottom is 100%)
 invert_sliders: false
@@ -25,4 +30,4 @@ baud_rate: 9600
 
 # adjust the amount of signal noise reduction depending on your hardware quality
 # supported values are "low" (excellent hardware), "default" (regular hardware) or "high" (bad, noisy hardware)
-noise_reduction: default
+noise_reduction: low
