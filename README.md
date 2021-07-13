@@ -2,6 +2,13 @@
 
 This fork of deej adds remappable button support. Buttons must be defined in config with int values. The int values can be found https://github.com/micmonay/keybd_event/blob/master/keybd_windows.go (make sure to convert hex values to int)
 
+# Build
+
+![Finished build](https://i.imgur.com/neM2xle.jpg)
+![Finished build2](https://i.imgur.com/moRmNFJ.jpg)
+
+Mini build log: https://imgur.com/a/baIDppz
+
 # deej
 
 deej is an **open-source hardware volume mixer** for Windows and Linux PCs. It lets you use real-life sliders (like a DJ!) to **seamlessly control the volumes of different apps** (such as your music player, the game you're playing and your voice chat session) without having to stop what you're doing.
