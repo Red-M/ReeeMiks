@@ -9,6 +9,8 @@ This fork of deej adds remappable button support. Buttons must be defined in con
 
 Mini build log: https://imgur.com/a/baIDppz
 
+Case files available in the [/models](https://github.com/Miodec/deej/tree/master/models) directory
+
 # deej
 
 deej is an **open-source hardware volume mixer** for Windows and Linux PCs. It lets you use real-life sliders (like a DJ!) to **seamlessly control the volumes of different apps** (such as your music player, the game you're playing and your voice chat session) without having to stop what you're doing.
