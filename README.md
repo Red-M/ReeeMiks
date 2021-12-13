@@ -4,6 +4,12 @@ This fork of deej adds remappable button support. Buttons must be defined in con
 
 Be sure to visit the [original repository](https://github.com/omriharel/deej)
 
+# How to
+
+ - Upload the Arduino code to your board (be sure to change the pin definitions).
+ - Download the `deej-release.exe` file and `config.yaml` from the [release section](https://github.com/Miodec/deej/releases/tag/compile) (`deej-dev` will show a debug console window when launched)
+ - If you run into any issues, feel free to ask in the [Deej Discord Server](https://discord.gg/nf88NJu)
+
 # Build
 
 ![Finished build](https://i.imgur.com/neM2xle.jpg)
