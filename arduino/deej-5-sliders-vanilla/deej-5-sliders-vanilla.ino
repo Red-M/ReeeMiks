@@ -42,12 +42,12 @@ void sendSliderValues() {
     builtString += String((int)analogSliderValues[i]);
 
     if (i < NUM_SLIDERS - 1) {
-      builtString += String("\t");
+      builtString += String("|");
     }
   }
 
   if(NUM_BUTTONS > 0){
-    builtString += String("\t");
+    builtString += String("|");
   }
 
   for (int i = 0; i < NUM_BUTTONS; i++) {
@@ -55,7 +55,7 @@ void sendSliderValues() {
     builtString += String((int)buttonValues[i]);
 
     if (i < NUM_BUTTONS - 1) {
-      builtString += String("\t");
+      builtString += String("|");
     }
   }
 
