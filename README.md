@@ -10,13 +10,16 @@ Be sure to visit the [original repository](https://github.com/omriharel/deej)
  - Download the `deej-release.exe` file and `config.yaml` from the [release section](https://github.com/Miodec/deej/releases/tag/compile) (`deej-dev` will show a debug console window when launched)
  - If you run into any issues, feel free to ask in the [Deej Discord Server](https://discord.gg/nf88NJu)
 
+# Case files
+
+Case files available in the [/models](https://github.com/Miodec/deej/tree/master/models) directory
+
 # Build
+
+Mini build log: https://imgur.com/a/baIDppz
 
 ![Finished build](https://i.imgur.com/neM2xle.jpg)
 ![Finished build2](https://i.imgur.com/moRmNFJ.jpg)
 
-Mini build log: https://imgur.com/a/baIDppz
 
-# Case files
 
-Case files available in the [/models](https://github.com/Miodec/deej/tree/master/models) directory
