@@ -20,6 +20,10 @@ slider_mapping:
 # 0xFFF = 4095
 # 124 + 4095
 # F13 = 4219
+# 
+# MAKE SURE THE NUMBER OF BUTTONS IN THE CONFIG MATCHES THE NUMBER OF BUTTONS REPORTED BY THE ARDUINO
+# If the number of buttons is not the same, deej might crash 
+#
 button_mapping:
   0: 4228
   1: 4272
