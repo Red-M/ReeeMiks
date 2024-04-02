@@ -7,8 +7,8 @@ Be sure to visit the [original repository](https://github.com/omriharel/deej)
  - Download the Arduino .ino file from the [release section](https://github.com/wildmanworth/deej/releases/tag/v0.1) and upload to your board using Arduino IDE (be sure to change the pin definitions) 
  - Download the `deej-release.exe` file and `config.yaml` from the [release section](https://github.com/wildmanworth/deej/releases/tag/v0.1) and place in folder together.
  - Edit both the .ino file and config.yaml file to reflect your board pin configuration, apps controlled, button mapping, and com_port
- - See deej FAQ for additional guidance [FAQ](https://github.com/omriharel/deej/blob/master/docs/faq/faq.md)
- - If you run into any issues, feel free to ask in the [Deej Discord Server](https://discord.gg/nf88NJu)
+ - See deej [FAQ](https://github.com/omriharel/deej/blob/master/docs/faq/faq.md) for additional guidance
+ - Join, contribute to, help others, and ask for help in the [Deej Discord Server](https://discord.gg/nf88NJu)
 
 # Case files
 
