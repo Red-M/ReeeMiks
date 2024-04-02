@@ -1,4 +1,4 @@
-#Summary
+# Summary
 This fork includes some additional guidance for using deej, as well as LED supports to indicate when a button is pressed, specifically to indicate an audio source being muted. However, I am operating under the assumption you've already gone through the process of choosing hardware and have begun building. If you need additional build support, refer to the [deej FAQ](https://github.com/omriharel/deej/blob/master/docs/faq/faq.md). This is a fork of Miodec's deej fork so it of course includes their addition of remappable button support. Buttons must be defined in config with int values. The key values can be found here: https://github.com/micmonay/keybd_event/blob/master/keybd_windows.go (make sure to convert hex values to int)
 
 Be sure to visit the [original repository](https://github.com/omriharel/deej)
