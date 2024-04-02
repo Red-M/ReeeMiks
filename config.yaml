@@ -5,7 +5,7 @@
 # windows only - you can use 'deej.current' to control the currently active app (whether full-screen or not)
 # windows only - you can use a device's full name, i.e. "Speakers (Realtek High Definition Audio)", to bind it. this works for both output and input devices
 # windows only - you can use 'system' to control the "system sounds" volume
-# important: slider indexes start at 0, regardless of which analog pins you're using!
+# important: slider or knob indexes start at 0, regardless of which analog pins you're using!
 slider_mapping:
   0: master
   1: chrome.exe
@@ -14,7 +14,14 @@ slider_mapping:
   4: discord.exe
 
 # supported button list https://github.com/micmonay/keybd_event/blob/master/keybd_windows.go (scroll down)
-# be sure to convert hex values to decimal (hex values start with 0x)
+#
+# quick references included below
+# mute = 4268
+# next track = 4271
+# previous track = 4272
+# play/pause = 4274
+#
+# be sure to convert hex values to decimal (hex values start with 0x) (https://www.binaryhexconverter.com/hex-to-decimal-converter)
 # for example: to get F13 (0x7C + 0xFFF)
 # 0x7C  = 124
 # 0xFFF = 4095
@@ -35,7 +42,7 @@ button_mapping:
 # set this to true if you want the controls inverted (i.e. top is 0%, bottom is 100%)
 invert_sliders: true
 
-# settings for connecting to the arduino board
+# settings for connecting to the arduino board - change com_port to match what port your board is connected to
 com_port: COM6
 baud_rate: 9600
 
