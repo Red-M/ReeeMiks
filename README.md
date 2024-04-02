@@ -13,6 +13,7 @@ Be sure to visit the [original repository](https://github.com/omriharel/deej)
 # Case files
 
 Case files available in the [/models](https://github.com/Miodec/deej/tree/master/models) directory
+Original case files coming soon
 
 # Build
 
