@@ -1,13 +1,10 @@
-# In this fork
-
-This fork of deej adds remappable button support. Buttons must be defined in config with int values. The key values can be found here: https://github.com/micmonay/keybd_event/blob/master/keybd_windows.go (make sure to convert hex values to int)
+This fork includes some additional guidance for using deej, as well as LED supports to indicate when a button is pressed, specifically to indicate an audio source being muted. This is a fork of Miodec's deej fork so it of course includes their addition of remappable button support. Buttons must be defined in config with int values. The key values can be found here: https://github.com/micmonay/keybd_event/blob/master/keybd_windows.go (make sure to convert hex values to int)
 
 Be sure to visit the [original repository](https://github.com/omriharel/deej)
 
-# How to
-
- - Upload the Arduino code to your board (be sure to change the pin definitions).
- - Download the `deej-release.exe` file and `config.yaml` from the [release section](https://github.com/Miodec/deej/releases/tag/compile) (`deej-dev` will show a debug console window when launched)
+# How To
+ - Upload the Arduino .ino code to your board using Arduino IDE (be sure to change the pin definitions) 
+ - Download the `deej-release.exe` file and `config.yaml` from the [release section](https://github.com/Miodec/deej/releases/tag/compile) (`deej-dev` is a debug console window when launched, use this for recording logs and checking things are working as expected)
  - If you run into any issues, feel free to ask in the [Deej Discord Server](https://discord.gg/nf88NJu)
 
 # Case files
@@ -16,10 +13,7 @@ Case files available in the [/models](https://github.com/Miodec/deej/tree/master
 
 # Build
 
-Mini build log: https://imgur.com/a/baIDppz
-
-![Finished build](https://i.imgur.com/neM2xle.jpg)
-![Finished build2](https://i.imgur.com/moRmNFJ.jpg)
+Build log coming soon
 
 
 
