@@ -4,8 +4,9 @@ This fork includes some additional guidance for using deej, as well as LED suppo
 Be sure to visit the [original repository](https://github.com/omriharel/deej)
 
 # How To
- - Upload the Arduino .ino code to your board using Arduino IDE (be sure to change the pin definitions) 
- - Download the `deej-release.exe` file and `config.yaml` from the [release section]([https://github.com/Miodec/deej/releases/tag/compile](https://github.com/wildmanworth/deej/releases/tag/v0.1)) and place in folder together (`deej-dev` is a debug console window when launched, use this for recording logs and checking things are working as expected)
+ - Download the Arduino .ino code from the [release section](https://github.com/wildmanworth/deej/releases/tag/v0.1) and upload to your board using Arduino IDE (be sure to change the pin definitions) 
+ - Download the `deej-release.exe` file and `config.yaml` from the [release section]([https://github.com/Miodec/deej/releases/tag/compile](https://github.com/wildmanworth/deej/releases/tag/v0.1)) and place in folder together.
+ - Edit both the 
  - If you run into any issues, feel free to ask in the [Deej Discord Server](https://discord.gg/nf88NJu)
 
 # Case files
