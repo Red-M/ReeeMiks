@@ -4,7 +4,7 @@ This fork includes some additional guidance for using deej, as well as LED suppo
 Be sure to visit the [original repository](https://github.com/omriharel/deej)
 
 # How To
- - Download the Arduino .ino file from the [release section](https://github.com/wildmanworth/deej/releases/tag/v0.1) and upload to your board using Arduino IDE (be sure to change the pin definitions) 
+ - Download the `Worth_Deej_LEDs_Buttons.ino` file from the [release section](https://github.com/wildmanworth/deej/releases/tag/v0.1) and upload to your board using Arduino IDE
  - Download the `deej-release.exe` file and `config.yaml` from the [release section](https://github.com/wildmanworth/deej/releases/tag/v0.1) and place in folder together.
  - Edit both the .ino file and config.yaml file to reflect your board pin configuration, apps controlled, button mapping, and com_port
  - See deej [FAQ](https://github.com/omriharel/deej/blob/master/docs/faq/faq.md) for additional guidance
