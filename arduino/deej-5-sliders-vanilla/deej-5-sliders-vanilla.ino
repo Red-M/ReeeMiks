@@ -3,7 +3,7 @@ const int analogInputs[NUM_SLIDERS] = {A0, A1, A2, A3, A10};
 
 int analogSliderValues[NUM_SLIDERS];
 
-void setup() { 
+void setup() {
   for (int i = 0; i < NUM_SLIDERS; i++) {
     pinMode(analogInputs[i], INPUT);
   }
@@ -34,7 +34,7 @@ void sendSliderValues() {
       builtString += String("|");
     }
   }
-  
+
   Serial.println(builtString);
 }
 

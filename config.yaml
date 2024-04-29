@@ -5,7 +5,7 @@
 # windows only - you can use 'deej.current' to control the currently active app (whether full-screen or not)
 # windows only - you can use a device's full name, i.e. "Speakers (Realtek High Definition Audio)", to bind it. this works for both output and input devices
 # windows only - you can use 'system' to control the "system sounds" volume
-# important: slider indexes start at 0, regardless of which analog pins you're using!
+# important: slider or knob indexes start at 0, regardless of which analog pins you're using!
 slider_mapping:
   0: deej.unmapped
   1:
@@ -20,6 +20,32 @@ slider_mapping:
     - pathofexile_x64.exe
     - rocketleague.exe
   4: master
+
+# supported button list https://github.com/micmonay/keybd_event/blob/master/keybd_windows.go (scroll down)
+#
+# quick references included below
+# mute = 4268
+# next track = 4271
+# previous track = 4272
+# play/pause = 4274
+#
+# be sure to convert hex values to decimal (hex values start with 0x) (https://www.binaryhexconverter.com/hex-to-decimal-converter)
+# for example: to get F13 (0x7C + 0xFFF)
+# 0x7C  = 124
+# 0xFFF = 4095
+# 124 + 4095
+# F13 = 4219
+#
+# MAKE SURE THE NUMBER OF BUTTONS IN THE CONFIG MATCHES THE NUMBER OF BUTTONS REPORTED BY THE ARDUINO
+# If the number of buttons is not the same, deej might crash
+#
+button_mapping:
+  0: 4228
+  1: 4272
+  2: 4274
+  3: 4271
+  4: 4229
+  5: 4230
 
 # set this to true if you want the controls inverted (i.e. top is 0%, bottom is 100%)
 invert_sliders: true
