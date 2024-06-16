@@ -202,7 +202,7 @@ func (sf *paSessionFinder) enumerateAndAddSessions(sessions *[]Session) error {
 		// }
 
 
-		sf.logger.Debug("Process: ", name)
+		sf.logger.Debug("Sink: ", name)
 
 		// create the deej session object
 		newSession := newPASession(sf.sessionLogger, sf.client, info.SinkIndex, info.Channels, name)
