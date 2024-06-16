@@ -3,6 +3,7 @@ package deej
 import (
 	"fmt"
 	"net"
+	// "regexp"
 
 	"github.com/jfreymuth/pulse/proto"
 	"go.uber.org/zap"
@@ -129,22 +130,82 @@ func (sf *paSessionFinder) enumerateAndAddSessions(sessions *[]Session) error {
 	}
 
 	for _, info := range reply {
-		var name proto.PropListEntry
+		var process_binary proto.PropListEntry
+		var process_name proto.PropListEntry
+		var name string
 		var ok bool
-		name, ok = info.Properties["application.process.binary"]
-		if !ok {
-			name, ok = info.Properties["application.name"]
-		}
 
-		if !ok {
-			sf.logger.Warnw("Failed to get sink input's process name",
-				"sinkInputIndex", info.SinkInputIndex)
+			process_binary, ok = info.Properties["media.name"]
+			if !ok {
+				sf.logger.Debug("Failed to get sink input's name", "sinkInputIndex", info.SinkInputIndex)
+				continue
+			}
+			process_name, ok = info.Properties["application.name"]
+			if !ok {
+				sf.logger.Debug("Failed to get sink input's application name", "sinkInputIndex", info.SinkInputIndex)
+				continue
+			}
+			name = process_binary.String() + ": " + process_name.String()
 
-			continue
-		}
+		sf.logger.Debug("Process: ", name)
 
 		// create the deej session object
-		newSession := newPASession(sf.sessionLogger, sf.client, info.SinkInputIndex, info.Channels, name.String())
+		newSession := newPASession(sf.sessionLogger, sf.client, info.SinkInputIndex, info.Channels, name)
+
+		// add it to our slice
+		*sessions = append(*sessions, newSession)
+
+	}
+
+	request2 := proto.GetSinkInfoList{}
+	reply2 := proto.GetSinkInfoListReply{}
+
+	if err := sf.client.Request(&request2, &reply2); err != nil {
+		sf.logger.Warnw("Failed to get sink list", "error", err)
+		return fmt.Errorf("get sink list: %w", err)
+	}
+
+	for _, info := range reply2 {
+		var audio_pos proto.PropListEntry
+		var process_binary proto.PropListEntry
+		var process_name proto.PropListEntry
+		var name string
+		var ok bool
+
+		audio_pos, ok = info.Properties["audio.position"]
+		if ok {
+			process_binary, ok = info.Properties["media.name"]
+			audio_pos = audio_pos
+			if !ok {
+				sf.logger.Debug("Failed to get sink's media name", "sinkInputIndex", info.SinkIndex)
+				continue
+			}
+			process_name, ok = info.Properties["node.name"]
+			if !ok {
+				sf.logger.Debug("Failed to get sink's node name", "sinkInputIndex", info.SinkIndex)
+				continue
+			}
+			// name = "deej.device: " + process_name.String()
+			name = "reeemiks.device: " + process_binary.String() + "~" + process_name.String()
+		}
+
+		// regex_match, err := regexp.MatchString("^(Audio/(Device|Sink|Source)|Stream/Output/Audio)$", media_class.String())
+		// if err==nil {
+		// 	if regex_match {
+		// 	} else {
+		// 	}
+		// } else {
+		// 	if !ok {
+		// 		sf.logger.Warnw("Failed to regex match sink input's media class", "sinkInputIndex", info.SinkIndex)
+		// 		continue
+		// 	}
+		// }
+
+
+		sf.logger.Debug("Process: ", name)
+
+		// create the deej session object
+		newSession := newPASession(sf.sessionLogger, sf.client, info.SinkIndex, info.Channels, name)
 
 		// add it to our slice
 		*sessions = append(*sessions, newSession)

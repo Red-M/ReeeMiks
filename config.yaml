@@ -7,37 +7,30 @@
 # windows only - you can use 'system' to control the "system sounds" volume
 # important: slider or knob indexes start at 0, regardless of which analog pins you're using!
 slider_mapping:
-  0: master
-  1: chrome.exe
-  2: brave.exe
-  3: deej.unmapped
-  4: discord.exe
-
-# supported button list https://github.com/micmonay/keybd_event/blob/master/keybd_windows.go (scroll down)
-#
-# quick references included below
-# mute = 4268
-# next track = 4271
-# previous track = 4272
-# play/pause = 4274
-#
-# be sure to convert hex values to decimal (hex values start with 0x) (https://www.binaryhexconverter.com/hex-to-decimal-converter)
-# for example: to get F13 (0x7C + 0xFFF)
-# 0x7C  = 124
-# 0xFFF = 4095
-# 124 + 4095
-# F13 = 4219
-# 
-# MAKE SURE THE NUMBER OF BUTTONS IN THE CONFIG MATCHES THE NUMBER OF BUTTONS REPORTED BY THE ARDUINO
-# If the number of buttons is not the same, deej might crash 
-#
-button_mapping:
-  0: 4228
-  1: 4272
-  2: 4274
-  3: 4271
-  4: 4229
-  5: 4230
+  0:
+    #- reeemiks.unmapped
+    - 'reeemiks.device: Catch-all input~input.loopback_group_default'
+    # - 'Audio Stream: SDL Application'
+  1:
+    #- 'chrome: google chrome'
+    #- 'chrome (deleted): Google Chrome'
+    # - 'Music input: input.loopback_group_music'
+    - 'reeemiks.device: Music input~input.loopback_group_music'
+  2:
+    # - 'ts3client_linux_amd64: TeamSpeak'
+    # - 'discord: webrtc voiceengine'
+    # - 'discordptb: webrtc voiceengine'
+    # - 'discordcanary: webrtc voiceengine'
+    # - 'Voice input: input.loopback_group_voice'
+    - 'reeemiks.device: Voice input~input.loopback_group_voice'
+  3:
+    # - 'wine64-preloader: runescape client'
+    # - 'discord: chromium'
+    # - 'discordptb: chromium'
+    # - 'discordcanary: chromium'
+    # - 'Low Priority input: input.loopback_group_low_prio_games'
+    - 'reeemiks.device: Low Priority input~input.loopback_group_low_prio_games'
+  4: master
 
 # set this to true if you want the controls inverted (i.e. top is 0%, bottom is 100%)
 invert_sliders: true
@@ -49,3 +42,4 @@ baud_rate: 9600
 # adjust the amount of signal noise reduction depending on your hardware quality
 # supported values are "low" (excellent hardware), "default" (regular hardware) or "high" (bad, noisy hardware)
 noise_reduction: low
+
