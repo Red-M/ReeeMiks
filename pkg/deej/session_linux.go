@@ -3,6 +3,7 @@ package deej
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	"go.uber.org/zap"
 
@@ -94,28 +95,52 @@ func newMasterSession(
 }
 
 func (s *paSession) GetVolume() float32 {
-	request := proto.GetSinkInputInfo{
-		SinkInputIndex: s.sinkInputIndex,
+	if strings.HasPrefix(s.processName, "reeemiks.device: ") {
+		request := &proto.GetSinkInfo{
+			SinkIndex: s.sinkInputIndex,
+		}
+		reply := &proto.GetSinkInfoReply{}
+
+		if err := s.client.Request(request, reply); err != nil {
+			s.logger.Warnw("Failed to get session volume", "error", err)
+		}
+
+		level := parseChannelVolumes(reply.ChannelVolumes)
+
+		return level
+	} else {
+		request := &proto.GetSinkInputInfo{
+			SinkInputIndex: s.sinkInputIndex,
+		}
+		reply := &proto.GetSinkInputInfoReply{}
+
+		if err := s.client.Request(request, reply); err != nil {
+			s.logger.Warnw("Failed to get session volume", "error", err)
+		}
+
+		level := parseChannelVolumes(reply.ChannelVolumes)
+
+		return level
 	}
-	reply := proto.GetSinkInputInfoReply{}
-
-	if err := s.client.Request(&request, &reply); err != nil {
-		s.logger.Warnw("Failed to get session volume", "error", err)
-	}
-
-	level := parseChannelVolumes(reply.ChannelVolumes)
-
-	return level
 }
 
 func (s *paSession) SetVolume(v float32) error {
+	var request proto.RequestArgs
+
 	volumes := createChannelVolumes(s.sinkInputChannels, v)
-	request := proto.SetSinkInputVolume{
-		SinkInputIndex: s.sinkInputIndex,
-		ChannelVolumes: volumes,
+	if strings.HasPrefix(s.processName, "reeemiks.device: ") {
+		request = &proto.SetSinkVolume{
+			SinkIndex:      s.sinkInputIndex,
+			ChannelVolumes: volumes,
+		}
+	} else {
+		request = &proto.SetSinkInputVolume{
+			SinkInputIndex: s.sinkInputIndex,
+			ChannelVolumes: volumes,
+		}
 	}
 
-	if err := s.client.Request(&request, nil); err != nil {
+	if err := s.client.Request(request, nil); err != nil {
 		s.logger.Warnw("Failed to set session volume", "error", err)
 		return fmt.Errorf("adjust session volume: %w", err)
 	}

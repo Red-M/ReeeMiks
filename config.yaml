@@ -7,18 +7,29 @@
 # windows only - you can use 'system' to control the "system sounds" volume
 # important: slider indexes start at 0, regardless of which analog pins you're using!
 slider_mapping:
-  0: deej.unmapped
+  0:
+    #- reeemiks.unmapped
+    - 'reeemiks.device: Catch-all input~input.loopback_group_default'
+    # - 'Audio Stream: SDL Application'
   1:
-    - chrome
-    - spotify
+    #- 'chrome: google chrome'
+    #- 'chrome (deleted): Google Chrome'
+    # - 'Music input: input.loopback_group_music'
+    - 'reeemiks.device: Music input~input.loopback_group_music'
   2:
-    - ts3client_linux_amd64
-    - Discord
-    - DiscordPTB
-    - DiscordCanary
+    # - 'ts3client_linux_amd64: TeamSpeak'
+    # - 'discord: webrtc voiceengine'
+    # - 'discordptb: webrtc voiceengine'
+    # - 'discordcanary: webrtc voiceengine'
+    # - 'Voice input: input.loopback_group_voice'
+    - 'reeemiks.device: Voice input~input.loopback_group_voice'
   3:
-    - pathofexile_x64.exe
-    - rocketleague.exe
+    # - 'wine64-preloader: runescape client'
+    # - 'discord: chromium'
+    # - 'discordptb: chromium'
+    # - 'discordcanary: chromium'
+    # - 'Low Priority input: input.loopback_group_low_prio_games'
+    - 'reeemiks.device: Low Priority input~input.loopback_group_low_prio_games'
   4: master
 
 # set this to true if you want the controls inverted (i.e. top is 0%, bottom is 100%)
@@ -30,5 +41,5 @@ baud_rate: 9600
 
 # adjust the amount of signal noise reduction depending on your hardware quality
 # supported values are "low" (excellent hardware), "default" (regular hardware) or "high" (bad, noisy hardware)
-noise_reduction: default
+noise_reduction: low
 
