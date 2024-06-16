@@ -35,8 +35,8 @@ slider_mapping:
 # set this to true if you want the controls inverted (i.e. top is 0%, bottom is 100%)
 invert_sliders: true
 
-# settings for connecting to the arduino board - change com_port to match what port your board is connected to
-com_port: COM6
+# settings for connecting to the arduino board
+com_port: /dev/serial/by-id/usb-SparkFun_SparkFun_Pro_Micro-if00
 baud_rate: 9600
 
 # adjust the amount of signal noise reduction depending on your hardware quality

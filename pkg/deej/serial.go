@@ -364,11 +364,11 @@ func (sio *SerialIO) handleLine(logger *zap.SugaredLogger, line string) {
 	buttonEvents := []ButtonEvent{}
 	for buttonId, stringValue := range splitLineButtons {
 
-		
+
 			//button handler
 			stringValue = strings.Replace(stringValue, "b", "", -1)
 			number, _ := strconv.Atoi(stringValue)
-			
+
 			if sio.currentButtonValues[buttonId] != number {
 
 				sio.currentButtonValues[buttonId] = number
