@@ -1,4 +1,4 @@
-module github.com/omriharel/deej
+module github.com/Red-M/ReeeMiks
 
 go 1.14
 
