@@ -153,7 +153,7 @@ func (m *sessionMap) setupOnSliderMove() {
 }
 
 func (m *sessionMap) setupOnButtonEvent() {
-	buttonEventsChannel := m.deej.serial.SubscribeToButtonEvents()
+	buttonEventsChannel := m.deej.deejConnection.SubscribeToButtonEvents()
 
 	go func() {
 		for {

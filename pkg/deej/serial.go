@@ -38,18 +38,6 @@ type SerialIO struct {
 	buttonEventConsumers []chan ButtonEvent
 }
 
-// SliderMoveEvent represents a single slider move captured by deej
-type SliderMoveEvent struct {
-	SliderID     int
-	PercentValue float32
-}
-
-// SliderMoveEvent represents a single slider move captured by deej
-type ButtonEvent struct {
-	ButtonID     int
-	Value 			 int
-}
-
 var expectedLinePattern = regexp.MustCompile(`^\w{1}\d{1,4}(\|\w{1}\d{1,4})*\r\n$|^\d{1,4}(\|\d{1,4})*\r\n$`)
 var maxRetryDelay = 100 * time.Second
 

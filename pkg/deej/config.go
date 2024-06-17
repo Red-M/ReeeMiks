@@ -242,10 +242,6 @@ func (cc *CanonicalConfig) populateFromVipers() error {
 		cc.internalConfig.GetStringMapStringSlice(configKeySliderMapping),
 	)
 
-	cc.ButtonMapping = cc.userConfig.GetStringMapStringSlice(configKeyButtonMapping)
-
-	// get the rest of the config fields - viper saves us a lot of effort here
-	cc.ConnectionInfo.COMPort = cc.userConfig.GetString(configKeyCOMPort)
 	// Get HID Config
 	cc.EnableHidListen = cc.userConfig.GetBool(configKeyEnableHID)
 

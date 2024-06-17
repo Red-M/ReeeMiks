@@ -6,8 +6,14 @@ type SliderMoveEvent struct {
 	PercentValue float32
 }
 
+type ButtonEvent struct {
+	ButtonID     int
+	Value 			 int
+}
+
 type DeejConnection interface {
 	Start() error
 	Stop()
 	SubscribeToSliderMoveEvents() chan SliderMoveEvent
+	SubscribeToButtonEvents() chan ButtonEvent
 }
