@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/kirsle/configdir"
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
@@ -48,13 +49,8 @@ type CanonicalConfig struct {
 }
 
 const (
-	userConfigFilepath     = "config.yaml"
-	internalConfigFilepath = "preferences.yaml"
-
 	userConfigName     = "config"
 	internalConfigName = "preferences"
-
-	userConfigPath = "."
 
 	configType = "yaml"
 
@@ -74,8 +70,37 @@ const (
 	defaultBaudRate = 9600
 )
 
-// has to be defined as a non-constant because we're using path.Join
-var internalConfigPath = path.Join(".", logDirectory)
+var userConfigFilename = userConfigName+"."+configType
+var userConfigPath = func() string {
+	configPath := configdir.LocalConfig("reeemiks")
+	err := util.EnsureDirExists(configPath)
+	if err != nil {
+		panic(err)
+	}
+	// Check if we need to make XDG path
+	// do existing config file check here
+	// if XDG config doesn't exist and rel path does, move rel path to XDG
+	// if XDG config does exist and rel config does exist, warn user
+	// if XDG config doesn't exist and rel config doesn't exist, create XDG path
+
+	configFile := path.Join(configPath, userConfigFilename)
+	xdg_exists := util.FileExists(configFile)
+	rel_exists := util.FileExists(userConfigFilename)
+
+	if !xdg_exists && rel_exists {
+		util.MoveFile(userConfigFilename,configFile)
+	} else if xdg_exists && rel_exists {
+		fmt.Printf("I'm ignoring your config relative to my binary, your config is located at: %s", configFile)
+	} else if !xdg_exists && !rel_exists {
+		fmt.Errorf("Config file doesn't exist: %s", configFile)
+	}
+
+
+	return configPath
+}()
+var userConfigFilepath = path.Join(userConfigPath, userConfigFilename)
+var internalConfigPath = path.Join(userConfigPath, logDirectory)
+var internalConfigFilepath = path.Join(userConfigPath, "preferences.yaml")
 
 var defaultSliderMapping = func() *sliderMap {
 	emptyMap := newSliderMap()
@@ -97,7 +122,7 @@ func NewConfig(logger *zap.SugaredLogger, notifier Notifier) (*CanonicalConfig, 
 
 	// distinguish between the user-provided config (config.yaml) and the internal config (logs/preferences.yaml)
 	userConfig := viper.New()
-	userConfig.SetConfigName(userConfigName)
+	userConfig.SetConfigName(userConfigFilename)
 	userConfig.SetConfigType(configType)
 	userConfig.AddConfigPath(userConfigPath)
 
@@ -129,9 +154,9 @@ func (cc *CanonicalConfig) Load() error {
 	if !util.FileExists(userConfigFilepath) {
 		cc.logger.Warnw("Config file not found", "path", userConfigFilepath)
 		cc.notifier.Notify("Can't find configuration!",
-			fmt.Sprintf("%s must be in the same directory as deej. Please re-launch", userConfigFilepath))
+			fmt.Sprintf("Config must be located at %s . Please re-launch", userConfigFilepath))
 
-		return fmt.Errorf("config file doesn't exist: %s", userConfigFilepath)
+		return fmt.Errorf("Config file doesn't exist: %s", userConfigFilepath)
 	}
 
 	// load the user config

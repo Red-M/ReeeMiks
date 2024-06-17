@@ -10,6 +10,7 @@ require (
 	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
 	github.com/jacobsa/go-serial v0.0.0-20180131005756-15cf729a72d4
 	github.com/jfreymuth/pulse v0.0.0-20200608153616-84b2d752b9d4
+	github.com/kirsle/configdir v0.0.0-20170128060238-e45d2f54772f // indirect
 	github.com/lxn/win v0.0.0-20191128105842-2da648fda5b4
 	github.com/micmonay/keybd_event v1.1.1 // indirect
 	github.com/mitchellh/go-ps v1.0.0
