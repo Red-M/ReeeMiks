@@ -50,7 +50,7 @@ type ButtonEvent struct {
 	Value 			 int
 }
 
-var expectedLinePattern = regexp.MustCompile(`^\w{1}\d{1,4}(\|\w{1}\d{1,4})*\r\n$`)
+var expectedLinePattern = regexp.MustCompile(`^\w{1}\d{1,4}(\|\w{1}\d{1,4})*\r\n$|^\d{1,4}(\|\d{1,4})*\r\n$`)
 var maxRetryDelay = 100 * time.Second
 
 // NewSerialIO creates a SerialIO instance that uses the provided deej
@@ -284,8 +284,10 @@ func (sio *SerialIO) handleLine(logger *zap.SugaredLogger, line string) {
 	for _, splitValue := range splitLine {
 		if splitValue[0] == 's' {
 			splitLineSliders = append(splitLineSliders, strings.Replace(splitValue, "s", "", -1))
-		}else if splitValue[0] == 'b' {
+		} else if splitValue[0] == 'b' {
 			splitLineButtons = append(splitLineButtons, strings.Replace(splitValue, "b", "", -1))
+		} else {
+			splitLineSliders = append(splitLineSliders, splitValue)
 		}
 	}
 
