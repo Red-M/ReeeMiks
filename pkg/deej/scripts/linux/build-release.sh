@@ -15,7 +15,7 @@ go build -o deej-release -ldflags "-s -w -X main.gitCommit=$GIT_COMMIT -X main.v
 if [ $? -eq 0 ]; then
     echo 'Done.'
 else
-    echo 'Error: "go build" exited with a non-zero code. Are you running this script from the root deej directory?'
+    echo 'Error: "go build" exited with a non-zero code.'
     exit 1
 fi
 
