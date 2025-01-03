@@ -33,10 +33,10 @@ type CanonicalConfig struct {
 	}
 
 	EnableHidListen bool
-
 	InvertSliders bool
-
 	NoiseReductionLevel string
+
+	ReeemiksMatching string
 
 	logger             *zap.SugaredLogger
 	notifier           Notifier
@@ -65,6 +65,7 @@ const (
 	configKeyUsagePage           = "usage_page"
 	configKeyUsage               = "usage"
 	configKeyEnableHID           = "enable_hid_listen"
+	configReeemiksMatching = "Reeemiks.matching"
 
 	defaultCOMPort  = "COM4"
 	defaultBaudRate = 9600
@@ -90,7 +91,7 @@ var userConfigPath = func() string {
 	if !xdg_exists && rel_exists {
 		util.MoveFile(userConfigFilename,configFile)
 	} else if xdg_exists && rel_exists {
-		fmt.Printf("I'm ignoring your config relative to my binary, your config is located at: %s", configFile)
+		fmt.Printf("WARN: I'm ignoring your config relative to my binary, your config is located at: %s\n", configFile)
 	} else if !xdg_exists && !rel_exists {
 		fmt.Errorf("Config file doesn't exist: %s", configFile)
 	}
@@ -132,6 +133,7 @@ func NewConfig(logger *zap.SugaredLogger, notifier Notifier) (*CanonicalConfig, 
 	userConfig.SetDefault(configKeyCOMPort, defaultCOMPort)
 	userConfig.SetDefault(configKeyBaudRate, defaultBaudRate)
 	userConfig.SetDefault(configKeyEnableHID, false)
+	userConfig.SetDefault(configReeemiksMatching, map[string]string{})
 
 	internalConfig := viper.New()
 	internalConfig.SetConfigName(internalConfigName)
@@ -290,6 +292,8 @@ func (cc *CanonicalConfig) populateFromVipers() error {
 
 	cc.InvertSliders = cc.userConfig.GetBool(configKeyInvertSliders)
 	cc.NoiseReductionLevel = cc.userConfig.GetString(configKeyNoiseReductionLevel)
+
+	cc.ReeemiksMatching = cc.userConfig.GetString(configReeemiksMatching)
 
 	cc.logger.Debug("Populated config fields from vipers")
 

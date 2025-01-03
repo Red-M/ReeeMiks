@@ -12,3 +12,5 @@ releases/
 *.bin
 logs/
 preferences.yaml
+arduino/**/*.hex
+

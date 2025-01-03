@@ -1,13 +1,8 @@
 const int NUM_SLIDERS = 5;
 const int sensor_history = 5;
-const int slider_range = 2;
-const int analogInputs[NUM_SLIDERS] = {A0, A1, A2, A3, A10};
-int lastValues[NUM_SLIDERS][sensor_history] = {
-  {0,0,0,0,0},
-  {0,0,0,0,0},
-  {0,0,0,0,0},
-  {0,0,0,0,0},
-  {0,0,0,0,0}};
+const int slider_range = 4;
+const int analogInputs[NUM_SLIDERS] = {A0, A10, A1, A2, A3};
+int (*lastValues)[NUM_SLIDERS] = new int[sensor_history][NUM_SLIDERS];
 String last_string = "";
 
 int analogSliderValues[NUM_SLIDERS];
@@ -22,7 +17,7 @@ void setup() {
 
 void loop() {
   updateSliderValues();
-  sendSliderValues(); // Actually send data (all the time)
+  sendSliderValues();
   // printSliderValues(); // For debug
   delay(1);
 }
@@ -30,6 +25,7 @@ void loop() {
 void updateSliderValues() {
   int current_value = 0;
   for (int i = 0; i < NUM_SLIDERS; i++) {
+    current_value = analogRead(analogInputs[i]);
     current_value = analogRead(analogInputs[i]);
     int updateOutput = 1;
     for(int ii = 0 ; ii<sensor_history ; ii++ ){

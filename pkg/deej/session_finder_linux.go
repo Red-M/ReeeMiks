@@ -12,12 +12,13 @@ import (
 type paSessionFinder struct {
 	logger        *zap.SugaredLogger
 	sessionLogger *zap.SugaredLogger
+	config        *CanonicalConfig
 
 	client *proto.Client
 	conn   net.Conn
 }
 
-func newSessionFinder(logger *zap.SugaredLogger) (SessionFinder, error) {
+func newSessionFinder(logger *zap.SugaredLogger, config *CanonicalConfig) (SessionFinder, error) {
 	client, conn, err := proto.Connect("")
 	if err != nil {
 		logger.Warnw("Failed to establish PulseAudio connection", "error", err)
@@ -26,7 +27,7 @@ func newSessionFinder(logger *zap.SugaredLogger) (SessionFinder, error) {
 
 	request := proto.SetClientName{
 		Props: proto.PropList{
-			"application.name": proto.PropListString("deej"),
+			"application.name": proto.PropListString("Reeemiks"),
 		},
 	}
 	reply := proto.SetClientNameReply{}
@@ -38,6 +39,7 @@ func newSessionFinder(logger *zap.SugaredLogger) (SessionFinder, error) {
 	sf := &paSessionFinder{
 		logger:        logger.Named("session_finder"),
 		sessionLogger: logger.Named("sessions"),
+		config:        config,
 		client:        client,
 		conn:          conn,
 	}
@@ -129,11 +131,28 @@ func (sf *paSessionFinder) enumerateAndAddSessions(sessions *[]Session) error {
 		return fmt.Errorf("get sink input list: %w", err)
 	}
 
-	for _, info := range reply {
-		var process_binary proto.PropListEntry
-		var process_name proto.PropListEntry
-		var name string
-		var ok bool
+	if sf.config.ReeemiksMatching == "default" {
+		for _, info := range reply {
+			name, ok := info.Properties["application.process.binary"]
+
+			if !ok {
+				sf.logger.Warnw("Failed to get sink input's process name", "sinkInputIndex", info.SinkInputIndex)
+				continue
+			}
+
+			// create the deej session object
+			newSession := newPASession(sf.sessionLogger, sf.client, info.SinkInputIndex, info.Channels, name.String())
+
+			// add it to our slice
+			*sessions = append(*sessions, newSession)
+
+		}
+	} else { // All new Reeemiks features
+		for _, info := range reply {
+			var process_binary proto.PropListEntry
+			var process_name proto.PropListEntry
+			var name string
+			var ok bool
 
 			process_binary, ok = info.Properties["media.name"]
 			if !ok {
@@ -147,69 +166,70 @@ func (sf *paSessionFinder) enumerateAndAddSessions(sessions *[]Session) error {
 			}
 			name = process_binary.String() + ": " + process_name.String()
 
-		sf.logger.Debug("Process: ", name)
+			sf.logger.Info("Process: ", name)
 
-		// create the deej session object
-		newSession := newPASession(sf.sessionLogger, sf.client, info.SinkInputIndex, info.Channels, name)
+			// create the deej session object
+			newSession := newPASession(sf.sessionLogger, sf.client, info.SinkInputIndex, info.Channels, name)
 
-		// add it to our slice
-		*sessions = append(*sessions, newSession)
+			// add it to our slice
+			*sessions = append(*sessions, newSession)
 
-	}
-
-	request2 := proto.GetSinkInfoList{}
-	reply2 := proto.GetSinkInfoListReply{}
-
-	if err := sf.client.Request(&request2, &reply2); err != nil {
-		sf.logger.Warnw("Failed to get sink list", "error", err)
-		return fmt.Errorf("get sink list: %w", err)
-	}
-
-	for _, info := range reply2 {
-		var audio_pos proto.PropListEntry
-		var process_binary proto.PropListEntry
-		var process_name proto.PropListEntry
-		var name string
-		var ok bool
-
-		audio_pos, ok = info.Properties["audio.position"]
-		if ok {
-			process_binary, ok = info.Properties["media.name"]
-			audio_pos = audio_pos
-			if !ok {
-				sf.logger.Debug("Failed to get sink's media name", "sinkInputIndex", info.SinkIndex)
-				continue
-			}
-			process_name, ok = info.Properties["node.name"]
-			if !ok {
-				sf.logger.Debug("Failed to get sink's node name", "sinkInputIndex", info.SinkIndex)
-				continue
-			}
-			// name = "deej.device: " + process_name.String()
-			name = "reeemiks.device: " + process_binary.String() + "~" + process_name.String()
 		}
 
-		// regex_match, err := regexp.MatchString("^(Audio/(Device|Sink|Source)|Stream/Output/Audio)$", media_class.String())
-		// if err==nil {
-		// 	if regex_match {
-		// 	} else {
-		// 	}
-		// } else {
-		// 	if !ok {
-		// 		sf.logger.Warnw("Failed to regex match sink input's media class", "sinkInputIndex", info.SinkIndex)
-		// 		continue
-		// 	}
-		// }
+		request2 := proto.GetSinkInfoList{}
+		reply2 := proto.GetSinkInfoListReply{}
 
+		if err := sf.client.Request(&request2, &reply2); err != nil {
+			sf.logger.Warnw("Failed to get sink list", "error", err)
+			return fmt.Errorf("get sink list: %w", err)
+		}
 
-		sf.logger.Debug("Sink: ", name)
+		for _, info := range reply2 {
+			var audio_pos proto.PropListEntry
+			var process_binary proto.PropListEntry
+			var process_name proto.PropListEntry
+			var name string
+			var ok bool
 
-		// create the deej session object
-		newSession := newPASession(sf.sessionLogger, sf.client, info.SinkIndex, info.Channels, name)
+			audio_pos, ok = info.Properties["audio.position"]
+			if ok {
+				audio_pos = audio_pos
+				process_binary, ok = info.Properties["media.name"]
+				if !ok {
+					sf.logger.Debug("Failed to get sink's media name", "sinkInputIndex", info.SinkIndex)
+					continue
+				}
+				process_name, ok = info.Properties["node.name"]
+				if !ok {
+					sf.logger.Debug("Failed to get sink's node name", "sinkInputIndex", info.SinkIndex)
+					continue
+				}
+				// name = "deej.device: " + process_name.String()
+				name = "reeemiks.device: " + process_binary.String() + "~" + process_name.String()
+			}
 
-		// add it to our slice
-		*sessions = append(*sessions, newSession)
+			// regex_match, err := regexp.MatchString("^(Audio/(Device|Sink|Source)|Stream/Output/Audio)$", media_class.String())
+			// if err==nil {
+			// 	if regex_match {
+			// 	} else {
+			// 	}
+			// } else {
+			// 	if !ok {
+			// 		sf.logger.Warnw("Failed to regex match sink input's media class", "sinkInputIndex", info.SinkIndex)
+			// 		continue
+			// 	}
+			// }
 
+			if name != "" {
+				sf.logger.Info("Sink: ", name)
+
+				// create the deej session object
+				newSession := newPASession(sf.sessionLogger, sf.client, info.SinkIndex, info.Channels, name)
+
+				// add it to our slice
+				*sessions = append(*sessions, newSession)
+			}
+		}
 	}
 
 	return nil

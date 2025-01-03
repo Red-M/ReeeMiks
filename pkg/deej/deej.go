@@ -55,7 +55,7 @@ func NewDeej(logger *zap.SugaredLogger, verbose bool) (*Deej, error) {
 		verbose:     verbose,
 	}
 
-	sessionFinder, err := newSessionFinder(logger)
+	sessionFinder, err := newSessionFinder(logger,config)
 	if err != nil {
 		logger.Errorw("Failed to create SessionFinder", "error", err)
 		return nil, fmt.Errorf("create new SessionFinder: %w", err)

@@ -16,6 +16,7 @@ import (
 type wcaSessionFinder struct {
 	logger        *zap.SugaredLogger
 	sessionLogger *zap.SugaredLogger
+	config         *CanonicalConfig
 
 	eventCtx *ole.GUID // needed for some session actions to successfully notify other audio consumers
 
@@ -31,8 +32,8 @@ type wcaSessionFinder struct {
 
 const (
 
-	// there's no real mystery here, it's just a random GUID
-	myteriousGUID = "{1ec920a1-7db8-44ba-9779-e5d28ed9f330}"
+	// random GUID, used for the application's GUID
+	reeemiksGUID = "{e3f979e1-2f34-4a52-9d2c-0375ea389a1f}"
 
 	// the notification client will call this multiple times in quick succession based on the
 	// default device's assigned media roles, so we need to filter out the extraneous calls
@@ -42,11 +43,12 @@ const (
 	deviceSessionFormat = "device.%s"
 )
 
-func newSessionFinder(logger *zap.SugaredLogger) (SessionFinder, error) {
+func newSessionFinder(logger *zap.SugaredLogger, config *CanonicalConfig) (SessionFinder, error) {
 	sf := &wcaSessionFinder{
 		logger:        logger.Named("session_finder"),
 		sessionLogger: logger.Named("sessions"),
-		eventCtx:      ole.NewGUID(myteriousGUID),
+		eventCtx:      ole.NewGUID(reeemiksGUID),
+		config: config,
 	}
 
 	sf.logger.Debug("Created WCA session finder instance")
