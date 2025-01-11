@@ -206,13 +206,6 @@ func (sf *paSessionFinder) enumerateAndAddSessions(sessions *[]Session) error {
 				}
 				// name = "reeemiks.device: " + process_name.String()
 				name = "reeemiks.device: " + process_binary.String() + "~" + process_name.String()
-				sf.logger.Info("Sink: ", name)
-
-				// create the reeemiks session object
-				newSession := newPASession(sf.sessionLogger, sf.client, info.SinkIndex, info.Channels, name)
-
-				// add it to our slice
-				*sessions = append(*sessions, newSession)
 			}
 
 			// regex_match, err := regexp.MatchString("^(Audio/(Device|Sink|Source)|Stream/Output/Audio)$", media_class.String())
@@ -227,6 +220,15 @@ func (sf *paSessionFinder) enumerateAndAddSessions(sessions *[]Session) error {
 			// 	}
 			// }
 
+			if name != "" {
+				sf.logger.Info("Sink: ", name)
+
+				// create the reeemiks session object
+				newSession := newPASession(sf.sessionLogger, sf.client, info.SinkIndex, info.Channels, name)
+
+				// add it to our slice
+				*sessions = append(*sessions, newSession)
+			}
 		}
 	}
 
