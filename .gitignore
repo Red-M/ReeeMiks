@@ -6,8 +6,8 @@ venv/
 .vscode
 *.lnk
 *.exe
-reeemiks-dev
-reeemiks-release
+deej-dev
+deej-release
 releases/
 *.bin
 logs/
